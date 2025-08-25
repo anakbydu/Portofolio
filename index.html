@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kertadiwangsa Web Dev - Jasa Pembuatan Website Profesional</title>
+    
+    <!-- Framework & Library CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/swiper@9.0.0/swiper-bundle.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #4a86e8;
+            --light-blue: #a7c7f3;
+            --dark-blue: #1a56db;
+            --white: #ffffff;
+            --light-gray: #f8fafc;
+            --text-dark: #1f2937;
+            --gradient-start: #e0f2f7; /* Light blue for background */
+            --gradient-end: #cce7f0;   /* Slightly darker blue */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: var(--text-dark);
+            overflow-x: hidden;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            min-height: 100vh;
+        }
+        
+        /* Particle Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            top: 0;
+            left: 0;
+        }
+        
+        /* Hero Section */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-gray) 100%);
+            overflow: hidden;
+            padding: 20px 0;
+            z-index: 1; /* Ensure hero content is above particles */
+        }
+        
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, var(--light-blue) 0%, transparent 70%);
+            opacity: 0.3;
+            z-index: 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 15px;
+        }
+        
+        .hero-headline {
+            font-size: 3.8rem; /* Slightly larger */
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1); /* Subtle shadow */
+        }
+        
+        .hero-subheadline {
+            font-size: 1.6rem; /* Slightly larger */
+            margin-bottom: 2.5rem;
+            color: var(--text-dark);
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(74, 134, 232, 0.4);
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            text-decoration: none; /* Ensure no underline */
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 0.6s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px); /* More pronounced lift */
+            box-shadow: 0 10px 30px rgba(74, 134, 232, 0.6); /* Stronger shadow */
+            background: var(--dark-blue); /* Darker blue on hover */
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        /* 3D Object Container */
+        #object-3d {
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 35vw; /* Responsive width */
+            height: 35vw; /* Responsive height */
+            max-width: 500px; /* Max size for larger screens */
+            max-height: 500px;
+            z-index: 1;
+            pointer-events: none; /* Allow clicks through */
+        }
+
+        /* Atom 3D Object Container */
+        #atom-3d {
+            position: absolute;
+            left: 5%;
+            bottom: 5%;
+            width: 15vw;
+            height: 15vw;
+            max-width: 200px;
+            max-height: 200px;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        /* 3D Floating Elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(74, 134, 232, 0.1);
+            backdrop-filter: blur(5px);
+            z-index: 0;
+            animation: float 15s infinite ease-in-out;
+            box-shadow: 0 0 20px rgba(74, 134, 232, 0.3);
+        }
+        
+        .float-1 { width: 150px; height: 150px; top: 20%; left: 5%; animation-delay: 0s; animation-duration: 18s; }
+        .float-2 { width: 100px; height: 100px; bottom: 30%; right: 15%; animation-delay: -5s; animation-duration: 12s; }
+        .float-3 { width: 80px; height: 80px; top: 60%; left: 10%; animation-delay: -10s; animation-duration: 20s; }
+        .float-4 { width: 60px; height: 60px; top: 10%; right: 25%; animation-delay: -3s; animation-duration: 16s; background: rgba(167, 199, 243, 0.15); }
+        .float-5 { width: 120px; height: 120px; bottom: 10%; left: 20%; animation-delay: -7s; animation-duration: 14s; background: rgba(74, 134, 232, 0.08); }
+        
+        /* Sections Common */
+        section {
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--white); /* Default background for sections */
+            margin-bottom: 20px; /* Space between sections */
+            border-radius: 15px; /* Rounded corners for sections */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); /* Subtle shadow */
+        }
+
+        #pricing, #order, #about, #portfolio, #certificates {
+            background-color: var(--white);
+            margin: 40px auto;
+            max-width: 1200px;
+            padding: 80px 30px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2.8rem; /* Slightly larger */
+            font-weight: 700;
+            color: var(--text-dark);
+            position: relative;
+            text-transform: uppercase; /* Uppercase for titles */
+            letter-spacing: 1.5px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px; /* Wider underline */
+            height: 5px; /* Thicker underline */
+            background: var(--primary-blue);
+            border-radius: 2px;
+        }
+        
+        /* Pricing Cards */
+        .pricing-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            transform-style: preserve-3d;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center; /* Center content */
+        }
+        
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px; /* Thicker top border */
+            background: var(--light-blue);
+        }
+        
+        .pricing-card.popular::before {
+            background: var(--primary-blue);
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-15px) rotateX(3deg); /* More dynamic hover */
+            border-color: var(--light-blue);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+        }
+        
+        .pricing-card.popular {
+            border-color: var(--primary-blue);
+            transform: scale(1.07); /* More prominent popular card */
+            box-shadow: 0 25px 50px rgba(74, 134, 232, 0.3); /* Blue shadow for popular */
+        }
+        
+        .pricing-card.popular:hover {
+            transform: scale(1.07) translateY(-15px) rotateX(3deg);
+        }
+        
+        .price {
+            font-size: 3rem; /* Larger price */
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin: 20px 0;
+        }
+        
+        .price-features {
+            list-style: none;
+            margin: 25px 0;
+            flex-grow: 1;
+            text-align: left; /* Align features left */
+            padding-left: 20px; /* Indent features */
+        }
+        
+        .price-features li {
+            padding: 12px 0; /* More padding */
+            border-bottom: 1px dashed #e5e7eb;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        
+        .price-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .price-features li i {
+            color: var(--primary-blue);
+            margin-right: 12px; /* More space */
+            font-size: 1.2rem;
+        }
+        
+        .price-button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 14px 35px; /* Larger button */
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-weight: 600;
+            margin-top: auto;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .price-button:hover {
+            background: var(--dark-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(74, 134, 232, 0.5);
+        }
+        
+        /* Form Section */
+        #order {
+            background: var(--light-gray);
+        }
+        
+        .form-container {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transform-style: preserve-3d;
+            transition: all 0.3s ease;
+        }
+        
+        .form-container:hover {
+            transform: translateY(-8px); /* More lift on hover */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .form-control {
+            padding: 15px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1.1rem;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 4px rgba(74, 134, 232, 0.3); /* Stronger focus glow */
+            outline: none; /* Remove default outline */
+        }
+        
+        .payment-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* Increased gap */
+            margin: 20px 0;
+            justify-content: center;
+        }
+        
+        .payment-method {
+            flex: 1 1 calc(33% - 20px);
+            max-width: calc(33% - 20px);
+            text-align: center;
+            padding: 20px; /* More padding */
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: var(--light-gray); /* Light background */
+        }
+        
+        .payment-method:hover {
+            border-color: var(--primary-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(74, 134, 232, 0.2);
+        }
+        
+        .payment-method.selected {
+            border-color: var(--primary-blue);
+            background: rgba(74, 134, 232, 0.15); /* More prominent selected state */
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(74, 134, 232, 0.3);
+        }
+        
+        .payment-method i {
+            font-size: 2.5rem; /* Larger icon */
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+        
+        /* About Section */
+        .profile-frame {
+            position: relative;
+            width: 300px;
+            height: 350px;
+            margin: 0 auto;
+            perspective: 1000px;
+            max-width: 90%;
+            max-height: 90vw;
+        }
+        
+        .profile-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+        
+        .profile-frame:hover .profile-card {
+            transform: rotateY(10deg) rotateX(5deg) scale(1.02); /* Added scale */
+        }
+        
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-hanger {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 20px;
+            background: #c0c0c0;
+            border-radius: 50% 50% 0 0;
+        }
+        
+        .profile-string {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(to bottom, transparent 0%, #c0c0c0 100%);
+        }
+        
+        /* Portfolio & Certificates */
+        .project-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: all 0.5s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-15px) rotateX(5deg); /* More lift */
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 280px; /* Slightly taller */
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+        
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75); /* Darker overlay */
+            display: flex;
+            flex-direction: column; /* Stack elements */
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.5s ease;
+            padding: 20px;
+        }
+        
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+        
+        .project-card:hover .project-image {
+            transform: scale(1.15); /* More zoom */
+        }
+
+        .project-title {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .preview-button {
+            color: white;
+            border: 2px solid white;
+            padding: 12px 30px; /* Larger button */
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: transparent; /* Transparent background */
+        }
+        
+        .preview-button:hover {
+            background: white;
+            color: var(--primary-blue); /* Blue text on hover */
+            transform: scale(1.05);
+        }
+        
+        .certificate-slide {
+            border-radius: 15px; /* More rounded */
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Stronger shadow */
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: all 0.5s ease;
+            background-color: var(--white);
+        }
+        
+        .certificate-slide:hover {
+            transform: translateY(-10px) rotateY(5deg); /* More lift */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .certificate-image {
+            width: 100%;
+            height: 320px; /* Taller image */
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .certificate-slide:hover .certificate-image {
+            transform: scale(1.05);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 60px 0 30px;
+            position: relative;
+            overflow: hidden;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            margin-top: 40px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            justify-content: center; /* Center social icons */
+        }
+        
+        .social-icon {
+            width: 50px; /* Larger icons */
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15); /* More visible background */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1.5rem; /* Larger icon size */
+            color: white;
+        }
+        
+        .social-icon:hover {
+            background: var(--primary-blue);
+            transform: translateY(-7px) rotate(15deg); /* More dynamic hover */
+            box-shadow: 0 5px 15px rgba(74, 134, 232, 0.5);
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); } /* More movement */
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        
+        @keyframes glow {
+            0% { box-shadow: 0 0 8px var(--light-blue); } /* Stronger glow */
+            50% { box-shadow: 0 0 25px var(--light-blue); }
+            100% { box-shadow: 0 0 8px var(--light-blue); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.07); } /* More pronounced pulse */
+            100% { transform: scale(1); }
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .glowing {
+            animation: glow 3s ease-in-out infinite;
+        }
+        
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        /* 3D Background Elements */
+        .bg-element {
+            position: absolute;
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.1;
+            background: var(--primary-blue);
+            animation: float 20s infinite ease-in-out; 
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 1200px) {
+            .hero-headline { font-size: 3.2rem; }
+            .hero-subheadline { font-size: 1.4rem; }
+            #object-3d { width: 40vw; height: 40vw; }
+            #atom-3d { width: 18vw; height: 18vw; }
+            .section-title { font-size: 2.5rem; }
+            .price { font-size: 2.8rem; }
+        }
+        
+        @media (max-width: 992px) {
+            .hero-headline { font-size: 2.8rem; }
+            .hero-subheadline { font-size: 1.2rem; }
+            #object-3d {
+                width: 50vw; height: 50vw;
+                right: 5%; top: 60%; transform: translateY(-50%);
+            }
+            #atom-3d {
+                width: 20vw; height: 20vw;
+                left: 5%; bottom: 2%;
+            }
+            .pricing-card.popular { transform: scale(1); }
+            .pricing-card.popular:hover { transform: translateY(-10px); }
+            .payment-methods { flex-direction: row; gap: 15px; } /* Keep row for tablets */
+            .payment-method { flex: 1 1 calc(50% - 15px); max-width: calc(50% - 15px); } /* 2 columns */
+            .project-image, .certificate-image { height: 220px; }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-headline { font-size: 2.2rem; text-align: center; }
+            .hero-subheadline { font-size: 1rem; text-align: center; }
+            .hero-content { text-align: center; }
+            .cta-button { margin: 0 auto; display: block; }
+            
+            #object-3d {
+                position: relative; /* Change to relative for better flow */
+                right: auto; top: auto; transform: none;
+                width: 60vw; height: 60vw; /* Larger on mobile */
+                margin: 40px auto; /* Center it */
+            }
+            #atom-3d { display: none; } /* Hide atom on smaller screens */
+            
+            .section-title { font-size: 2.2rem; }
+            .floating-element { display: none; }
+            .form-container { padding: 25px; }
+            .profile-frame { margin-bottom: 30px; }
+            .payment-method { flex: 1 1 90%; max-width: 90%; } /* Single column */
+            .project-image, .certificate-image { height: 180px; }
+        }
+        
+        @media (max-width: 576px) {
+            section { padding: 60px 0; }
+            .hero-headline { font-size: 1.8rem; }
+            .cta-button { padding: 12px 30px; font-size: 1rem; }
+            .section-title { font-size: 1.8rem; margin-bottom: 40px; }
+            .pricing-card { padding: 30px 20px; }
+            .price { font-size: 2.5rem; }
+            .profile-frame { width: 250px; height: 300px; }
+            .project-image, .certificate-image { height: 150px; }
+            .social-icon { width: 40px; height: 40px; font-size: 1.2rem; }
+        }
+        
+        /* Loading Animation */
+        .loader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95); /* More opaque */
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            backdrop-filter: blur(5px); /* Blur background */
+        }
+        
+        .loader-spinner {
+            width: 60px; /* Larger spinner */
+            height: 60px;
+            border: 6px solid var(--light-blue);
+            border-top: 6px solid var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .loader p {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Success Message */
+        .success-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25); /* Stronger shadow */
+            z-index: 10000;
+            text-align: center;
+            max-width: 90%;
+            width: 450px; /* Slightly wider */
+            animation: fadeInScale 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        .success-icon {
+            font-size: 70px; /* Larger icon */
+            color: #4CAF50;
+            margin-bottom: 20px;
+            animation: bounceIn 0.8s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+
+        .success-message h3 {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .success-message p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 25px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+        <p class="mt-3">Mengirim pesanan...</p>
+    </div>
+    
+    <!-- Success Message -->
+    <div class="success-message" id="successMessage">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h3>Pesanan Terkirim!</h3>
+        <p>Saya akan segera menghubungi Anda via WhatsApp untuk konfirmasi dan detail selanjutnya.</p>
+        <button class="cta-button mt-3" onclick="closeSuccessMessage()">Tutup</button>
+    </div>
+
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+    
+    <!-- 3D Floating Elements -->
+    <div class="floating-element float-1"></div>
+    <div class="floating-element float-2"></div>
+    <div class="floating-element float-3"></div>
+    <div class="floating-element float-4"></div>
+    <div class="floating-element float-5"></div>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 hero-content">
+                    <h1 class="hero-headline">
+                        <span class="typed-text"></span>
+                        <span class="cursor">&nbsp;</span>
+                    </h1>
+                    <p class="hero-subheadline">Jasa pembuatan website modern dan responsif oleh Farhan Kertadiwangsa. Solusi digital terjangkau untuk bisnis dan personal branding Anda.</p>
+                    <a href="#pricing" class="cta-button">Lihat Paket & Harga</a>
+                </div>
+            </div>
+        </div>
+        <div id="object-3d"></div>
+        <div id="atom-3d"></div> <!-- New Atom 3D Object -->
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing">
+        <!-- Background Elements -->
+        <div class="bg-element" style="width: 300px; height: 300px; top: 10%; left: -150px;"></div>
+        <div class="bg-element" style="width: 200px; height: 200px; bottom: 20%; right: -100px;"></div>
+        
+        <div class="container">
+            <h2 class="section-title">Paket Layanan</h2>
+            <div class="row justify-content-center">
+                <!-- Paket Starter -->
+                <div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="0">
+                    <div class="pricing-card">
+                        <h3>Paket Starter</h3>
+                        <div class="price">RP Mulai dari 10k-180k</div>
+                        <ul class="price-features">
+                            <li><i class="fas fa-check"></i> Landing Page 1 Halaman</li>
+                            <li><i class="fas fa-check"></i> Desain Responsif</li>
+                            <li><i class="fas fa-check"></i> Hosting gratis</li>
+                            <li><i class="fas fa-check"></i> Revisi sepuasnya</li>
+                            <li><i class="fas fa-times" style="color: #dc3545;"></i> Integrasi Sosmed</li>
+                            <li><i class="fas fa-times" style="color: #dc3545;"></i>super cepat estimasi 4-8 jam</li>
+                        </ul>
+                        <button class="price-button" onclick="selectPackage('starter')">Pesan Sekarang</button>
+                    </div>
+                </div>
+                
+                <!-- Paket Bisnis -->
+                <div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="pricing-card popular">
+                        <span class="badge bg-primary position-absolute top-0 end-0 m-3">Paling Populer</span>
+                        <h3>Paket Bisnis</h3>
+                        <div class="price">Mulai dari RP 180k-370k</div>
+                        <ul class="price-features">
+                            <li><i class="fas fa-check"></i> Website hingga 5 Halaman</li>
+                            <li><i class="fas fa-check"></i> Desain Responsif</li>
+                            <li><i class="fas fa-check"></i> Gratis Domain my.id</li>
+                            <li><i class="fas fa-check"></i> Integrasi Sosmed</li>
+                            <li><i class="fas fa-check"></i> Revisi sepuasnya</li>
+                            <li><i class="fas fa-check"></i> Panel Admin Sederhana</li>
+                        </ul>
+                        <button class="price-button" onclick="selectPackage('bisnis')">Pesan Sekarang</button>
+                    </div>
+                </div>
+                
+                <!-- Paket Pro -->
+                <div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="pricing-card">
+                        <h3>Paket Pro</h3>
+                        <div class="price">Mulai dari Rp 370k-500k</div>
+                        <ul class="price-features">
+                            <li><i class="fas fa-check"></i> Website Kompleks (Toko Online/Sistem Kustom)</li>
+                            <li><i class="fas fa-check"></i> Desain Premium</li>
+                            <li><i class="fas fa-check"></i> Gratis Domain .id</li>
+                            <li><i class="fas fa-check"></i> Integrasi Payment Gateway</li>
+                            <li><i class="fas fa-check"></i> Revisi Tanpa Batas</li>
+                            <li><i class="fas fa-check"></i> Support Prioritas</li>
+                        </ul>
+                        <button class="price-button" onclick="selectPackage('pro')">Pesan Sekarang</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Form Section -->
+    <section id="order">
+        <!-- Background Elements -->
+        <div class="bg-element" style="width: 250px; height: 250px; top: 15%; right: -125px;"></div>
+        <div class="bg-element" style="width: 150px; height: 150px; bottom: 25%; left: -75px;"></div>
+        
+        <div class="container">
+            <h2 class="section-title">Pesan Sekarang</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="form-container">
+                        <form id="order-form">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="name" placeholder="Nama Lengkap Anda" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="tel" class="form-control" id="whatsapp" placeholder="Nomor WhatsApp Aktif (contoh: 62823...)" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="email" class="form-control" id="email" placeholder="Alamat Email" required>
+                            </div>
+                            <div class="mb-3">
+                                <select class="form-control" id="package" required>
+                                    <option value="">Pilih Paket</option>
+                                    <option value="starter">Starter - Rp 35.000</option>
+                                    <option value="bisnis">Bisnis - Rp 180.000</option>
+                                    <option value="pro">Pro - Rp 370.000</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Pilih Metode Pembayaran:</label>
+                                <div class="payment-methods">
+                                    <div class="payment-method" data-method="dana" onclick="selectPayment('dana')">
+                                        <i class="fas fa-wallet"></i>
+                                        <p>DANA</p>
+                                    </div>
+                                    <div class="payment-method" data-method="ovo" onclick="selectPayment('ovo')">
+                                        <i class="fas fa-mobile-alt"></i>
+                                        <p>OVO</p>
+                                    </div>
+                                    <div class="payment-method" data-method="gopay" onclick="selectPayment('gopay')">
+                                        <i class="fas fa-qrcode"></i>
+                                        <p>GOPAY</p>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="payment-method" required>
+                            </div>
+                            <button type="submit" class="price-button w-100">Kirim Pesanan Sekarang</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">Tentang Saya</h2>
+            <div class="row align-items-center">
+                <div class="col-md-4 text-center" data-aos="fade-right">
+                    <div class="profile-frame">
+                        <div class="profile-string"></div>
+                        <div class="profile-hanger"></div>
+                        <div class="profile-card floating">
+                            <img src="https://litter.catbox.moe/82pm243geyutn66d.jpg" alt="Farhan Kertadiwangsa" class="profile-image">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8" data-aos="fade-left" data-aos-delay="200">
+                    <h3>Farhan Kertadiwangsa</h3>
+                    <p class="text-muted">13 Tahun | Web Developer & Spesialis Front-End</p>
+                    <p class="mt-4">Saya adalah seorang developer otodidak dengan pengalaman belajar intensif selama 4 tahun. Memiliki hasrat mendalam pada teknologi web dan spesialisasi dalam membangun antarmuka pengguna yang dinamis, responsif, dan modern. Menguasai berbagai framework canggih untuk mewujudkan website impian Anda menjadi kenyataan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio">
+        <div class="container">
+            <h2 class="section-title">Portofolio</h2>
+            <div class="row" id="portfolio-container">
+                <!-- Portfolio items will be loaded dynamically -->
+                <div class="col-12 text-center">
+                    <p>Proyek-proyek terbaru akan segera ditampilkan di sini.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificates Section -->
+    <section id="certificates">
+        <div class="container">
+            <h2 class="section-title">Sertifikat & Keahlian</h2>
+            <div class="swiper certificate-swiper">
+                <div class="swiper-wrapper" id="certificates-container">
+                    <!-- Certificates will be loaded dynamically -->
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <!-- Background Elements -->
+        <div class="bg-element" style="width: 200px; height: 200px; top: 10%; left: -100px;"></div>
+        <div class="bg-element" style="width: 150px; height: 150px; bottom: 20%; right: -75px;"></div>
+        
+        <div class="container">
+            <div class="row text-center text-md-start">
+                <div class="col-md-4 mb-4">
+                    <h4>Kertadiwangsa Web Dev</h4>
+                    <p>Membangun website impian Anda dengan teknologi terkini.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Kontak</h5>
+                    <p><i class="fas fa-envelope me-2"></i> farhankertadiwangsa@gmail.com</p>
+                    <p><i class="fas fa-phone me-2"></i> +62 823-3647-9077</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Ikuti Saya</h5>
+                    <div class="social-icons">
+                        <a href="https://wa.me/6282336479077" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://t.me/farhankertadiwangsa" target="_blank" class="social-icon"><i class="fab fa-telegram"></i></a>
+                        <a href="tel:+6282336479077" class="social-icon"><i class="fas fa-phone"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2025 Farhan Kertadiwangsa. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollToPlugin.min.js"></script> <!-- Added ScrollToPlugin -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script> <!-- Corrected Lightbox JS path -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9.0.0/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <script>
+        // =============================
+        // KONFIGURASI DATA SERTIFIKAT
+        // =============================
+        // Edit array ini untuk menambah/mengubah sertifikat
+        // Maksimal 10 sertifikat
+        // Jika tidak ingin menampilkan semua 10, cukup hapus atau kosongkan URL-nya
+        const certificates = [
+            "https://files.catbox.moe/guck43.jpg",  // Sertifikat 1
+            "https://files.catbox.moe/ddwxbh.png",  // Sertifikat 2
+            "https://files.catbox.moe/n14px8.png",  // Sertifikat 3
+            "https://files.catbox.moe/8kzwjd.png",  // Sertifikat 4
+            "",  // Sertifikat 5
+            "",  // Sertifikat 6
+            "",  // Sertifikat 7
+            "",  // Sertifikat 8
+            "",  // Sertifikat 9
+            ""   // Sertifikat 10
+        ];
+
+        // =============================
+        // KONFIGURASI DATA PROYEK
+        // =============================
+        // Edit array ini untuk menambah/mengubah proyek
+        // Maksimal 10 proyek
+        // Jika tidak ingin menampilkan semua 10, cukup hapus atau kosongkan objeknya
+        const projects = [
+            { thumbnail: "https://files.catbox.moe/pcwdm7.jpg", title: "KYNAY OS", link: "https://kynay-prime.vercel.app" },
+            { thumbnail: "https://files.catbox.moe/br0n86.jpg", title: "Ali Store E-commerce", link: "https://ali-store.vercel.app/" },
+            { thumbnail: "https://files.catbox.moe/6r7fez.png", title: "Company Profile Website", link: "#" }, // Example project
+            { thumbnail: "", title: "", link: "" },
+            { thumbnail: "", title: "", link: "" },
+            { thumbnail: "", title: "", link: "" },
+            { thumbnail: "", title: "", link: "" },
+            { thumbnail: "", title: "", link: "" },
+            { thumbnail: "", title: "", link: "" },
+            { thumbnail: "", title: "", link: "" }
+        ];
+
+        // =============================
+        // KONFIGURASI BOT TELEGRAM
+        // =============================
+        const BOT_TOKEN = '7996219854:AAGVE0xjPdAcUuxfonYsuuoIgLsaFRJtx5k';
+        const CHAT_ID = '7221161888';
+
+        // Initialize all libraries and components
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize AOS
+            AOS.init({
+                duration: 1000,
+                once: true,
+                offset: 100 // Trigger animations earlier
+            });
+            
+            // Initialize Typed.js
+            new Typed('.typed-text', {
+                strings: ['Bangun Website Impian Anda.', 'Cepat, Aman, Profesional.', 'Solusi Digital Terbaik.'],
+                typeSpeed: 70,
+                backSpeed: 40,
+                backDelay: 2000,
+                loop: true
+            });
+            
+            // Initialize Three.js for 3D object and Atom
+            initThreeJSObject();
+            initThreeJSAtom();
+            
+            // Initialize Tilt.js on interactive cards
+            $('.pricing-card, .project-card, .certificate-slide, .profile-card').tilt({
+                scale: 1.05, /* Increased scale for more effect */
+                glare: true,
+                maxGlare: 0.2, /* More glare */
+                perspective: 1000 /* Deeper perspective */
+            });
+            
+            // Initialize Swiper for certificates
+            const certSwiper = new Swiper('.certificate-swiper', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: true, /* Loop certificates */
+                autoplay: {
+                    delay: 3000, /* Auto play */
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    640: { slidesPerView: 2, spaceBetween: 30 },
+                    1024: { slidesPerView: 3, spaceBetween: 40 },
+                }
+            });
+            
+            // Initialize form submission
+            document.getElementById('order-form').addEventListener('submit', handleFormSubmit);
+            
+            // Load dynamic content
+            loadPortfolioItems();
+            loadCertificates();
+            
+            // Initialize particles.js
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: "#4a86e8" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#4a86e8",
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "grab" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    }
+                },
+                retina_detect: true
+            });
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    gsap.to(window, {duration: 1, scrollTo: targetId, ease: "power2.out"});
+                });
+            });
+        });
+        
+        // Three.js initialization for main 3D object
+        function initThreeJSObject() {
+            const container = document.getElementById('object-3d');
+            if (!container) return;
+            
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+            
+            const material = new THREE.MeshPhysicalMaterial({
+                color: 0x4a86e8,
+                metalness: 0.1,
+                roughness: 0.1,
+                transmission: 0.9,
+                transparent: true,
+                opacity: 0.7,
+                clearcoat: 1.0,
+                clearcoatRoughness: 0.1
+            });
+            
+            const cubeGeometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
+            const sphereGeometry = new THREE.SphereGeometry(1, 32, 32);
+            
+            const cube = new THREE.Mesh(cubeGeometry, material);
+            const sphere = new THREE.Mesh(sphereGeometry, material);
+            
+            const group = new THREE.Group();
+            group.add(cube);
+            group.add(sphere);
+            
+            scene.add(group);
+            
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 5, 5);
+            scene.add(directionalLight);
+            
+            const pointLight = new THREE.PointLight(0x4a86e8, 1, 100);
+            pointLight.position.set(2, 2, 2);
+            scene.add(pointLight);
+            
+            camera.position.z = 5;
+            
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                group.rotation.x += 0.005;
+                group.rotation.y += 0.008;
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            window.addEventListener('resize', () => {
+                if (!container) return;
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        }
+
+        // Three.js initialization for Atom 3D object
+        function initThreeJSAtom() {
+            const container = document.getElementById('atom-3d');
+            if (!container) return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            // Core
+            const coreGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+            const coreMaterial = new THREE.MeshBasicMaterial({ color: 0x1a56db });
+            const core = new THREE.Mesh(coreGeometry, coreMaterial);
+            scene.add(core);
+
+            // Electrons and Orbits
+            const electronMaterial = new THREE.MeshBasicMaterial({ color: 0xa7c7f3 });
+            const orbitMaterial = new THREE.LineBasicMaterial({ color: 0x4a86e8, transparent: true, opacity: 0.3 });
+
+            const orbits = [];
+            const electrons = [];
+
+            // Orbit 1
+            const orbit1Radius = 1.2;
+            const orbit1Geometry = new THREE.RingGeometry(orbit1Radius - 0.02, orbit1Radius + 0.02, 64);
+            const orbit1 = new THREE.Mesh(orbit1Geometry, orbitMaterial);
+            orbit1.rotation.x = Math.PI / 2;
+            scene.add(orbit1);
+            orbits.push(orbit1);
+
+            const electron1 = new THREE.Mesh(new THREE.SphereGeometry(0.1, 16, 16), electronMaterial);
+            electrons.push({ mesh: electron1, orbitRadius: orbit1Radius, speed: 0.02, angle: 0, orbit: orbit1 });
+            scene.add(electron1);
+
+            // Orbit 2
+            const orbit2Radius = 1.8;
+            const orbit2Geometry = new THREE.RingGeometry(orbit2Radius - 0.02, orbit2Radius + 0.02, 64);
+            const orbit2 = new THREE.Mesh(orbit2Geometry, orbitMaterial);
+            orbit2.rotation.x = Math.PI / 2;
+            orbit2.rotation.y = Math.PI / 4; // Tilt
+            scene.add(orbit2);
+            orbits.push(orbit2);
+
+            const electron2 = new THREE.Mesh(new THREE.SphereGeometry(0.1, 16, 16), electronMaterial);
+            electrons.push({ mesh: electron2, orbitRadius: orbit2Radius, speed: 0.015, angle: Math.PI / 2, orbit: orbit2 });
+            scene.add(electron2);
+
+            // Orbit 3
+            const orbit3Radius = 2.4;
+            const orbit3Geometry = new THREE.RingGeometry(orbit3Radius - 0.02, orbit3Radius + 0.02, 64);
+            const orbit3 = new THREE.Mesh(orbit3Geometry, orbitMaterial);
+            orbit3.rotation.x = Math.PI / 2;
+            orbit3.rotation.z = Math.PI / 3; // Tilt
+            scene.add(orbit3);
+            orbits.push(orbit3);
+
+            const electron3 = new THREE.Mesh(new THREE.SphereGeometry(0.1, 16, 16), electronMaterial);
+            electrons.push({ mesh: electron3, orbitRadius: orbit3Radius, speed: 0.01, angle: Math.PI, orbit: orbit3 });
+            scene.add(electron3);
+
+            camera.position.z = 3;
+
+            function animateAtom() {
+                requestAnimationFrame(animateAtom);
+
+                core.rotation.y += 0.005;
+
+                electrons.forEach(e => {
+                    e.angle += e.speed;
+                    const x = e.orbitRadius * Math.cos(e.angle);
+                    const y = e.orbitRadius * Math.sin(e.angle);
+
+                    // Apply electron position relative to its orbit's rotation
+                    const electronPosition = new THREE.Vector3(x, y, 0);
+                    electronPosition.applyQuaternion(e.orbit.quaternion);
+                    e.mesh.position.copy(electronPosition);
+                });
+
+                renderer.render(scene, camera);
+            }
+
+            animateAtom();
+
+            window.addEventListener('resize', () => {
+                if (!container) return;
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        }
+        
+        // Package selection
+        function selectPackage(packageType) {
+            document.getElementById('package').value = packageType;
+            // Scroll to order section after selecting package
+            gsap.to(window, {duration: 1, scrollTo: '#order', ease: "power2.out"});
+        }
+        
+        // Payment method selection
+        function selectPayment(method) {
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            paymentMethods.forEach(pm => pm.classList.remove('selected'));
+            
+            document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('selected');
+            document.getElementById('payment-method').value = method;
+        }
+        
+        // Form submission handler
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const whatsapp = document.getElementById('whatsapp').value;
+            const email = document.getElementById('email').value;
+            const package = document.getElementById('package').value;
+            const paymentMethod = document.getElementById('payment-method').value;
+            
+            if (!name || !whatsapp || !email || !package || !paymentMethod) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Harap isi semua field yang wajib diisi!',
+                });
+                return;
+            }
+            
+            const whatsappRegex = /^(\+62|62|0)8[1-9][0-9]{6,10}$/; // Adjusted regex for 7-11 digits
+            if (!whatsappRegex.test(whatsapp.replace(/\D/g, ''))) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Nomor WhatsApp tidak valid',
+                    text: 'Harap masukkan nomor WhatsApp Indonesia yang valid (contoh: 62823...).',
+                });
+                return;
+            }
+            
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Email tidak valid',
+                    text: 'Harap masukkan alamat email yang valid.',
+                });
+                return;
+            }
+            
+            document.getElementById('loader').style.display = 'flex';
+            
+            const now = new Date();
+            const formattedDate = now.toLocaleString('id-ID', {
+                day: '2-digit', month: 'long', year: 'numeric',
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
+            });
+            
+            const message = `✨ PESANAN WEBSITE BARU! ✨
+━━━━━━━━━━━━━━━━━━━━
+👤 Nama: ${name}
+📱 WhatsApp: ${whatsapp}
+✉️ Email: ${email}
+📦 Paket: ${package.toUpperCase()}
+💰 Metode Pembayaran: ${paymentMethod.toUpperCase()}
+🕒 Waktu: ${formattedDate}
+━━━━━━━━━━━━━━━━━━━━`;
+            
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message,
+                    parse_mode: 'HTML'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loader').style.display = 'none';
+                
+                if (data.ok) {
+                    document.getElementById('successMessage').style.display = 'block';
+                    document.getElementById('order-form').reset();
+                    document.querySelectorAll('.payment-method').forEach(pm => pm.classList.remove('selected'));
+                } else {
+                    throw new Error('Telegram API error: ' + (data.description || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error sending message:', error);
+                document.getElementById('loader').style.display = 'none';
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Terjadi Kesalahan',
+                    text: 'Pesanan gagal dikirim. Silakan coba lagi atau hubungi saya langsung via WhatsApp. Detail: ' + error.message,
+                });
+            });
+        }
+        
+        // Close success message
+        function closeSuccessMessage() {
+            document.getElementById('successMessage').style.display = 'none';
+        }
+        
+        // Load portfolio items from projects array
+        function loadPortfolioItems() {
+            const portfolioContainer = document.getElementById('portfolio-container');
+            if (!portfolioContainer) return;
+            
+            const validProjects = projects.filter(project => 
+                project.thumbnail && project.thumbnail.trim() !== ''
+            );
+            
+            if (validProjects.length === 0) {
+                portfolioContainer.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <p class="lead text-muted">Proyek-proyek terbaru akan segera ditampilkan di sini. Nantikan!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let portfolioHTML = '';
+            
+            validProjects.forEach(project => {
+                portfolioHTML += `
+                    <div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up">
+                        <div class="project-card">
+                            <img src="${project.thumbnail}" alt="${project.title}" class="project-image">
+                            <div class="project-overlay">
+                                <h4 class="project-title">${project.title}</h4>
+                                ${project.link ? `<a href="${project.link}" target="_blank" class="preview-button">Lihat Proyek</a>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            portfolioContainer.innerHTML = portfolioHTML;
+            
+            // Reinitialize tilt effect on new project cards
+            setTimeout(() => {
+                $('.project-card').tilt({
+                    scale: 1.05,
+                    glare: true,
+                    maxGlare: 0.2,
+                    perspective: 1000
+                });
+            }, 100);
+        }
+        
+        // Load certificates from certificates array
+        function loadCertificates() {
+            const certificatesContainer = document.getElementById('certificates-container');
+            if (!certificatesContainer) return;
+            
+            const validCertificates = certificates.filter(cert => 
+                cert && cert.trim() !== ''
+            );
+            
+            if (validCertificates.length === 0) {
+                certificatesContainer.innerHTML = `
+                    <div class="swiper-slide text-center py-5">
+                        <p class="lead text-muted">Sertifikat akan segera ditampilkan di sini. Tetap terhubung!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let certificatesHTML = '';
+            
+            validCertificates.forEach(cert => {
+                certificatesHTML += `
+                    <div class="swiper-slide">
+                        <div class="certificate-slide">
+                            <a href="${cert}" data-lightbox="certificates" data-title="Sertifikat Keahlian">
+                                <img src="${cert}" alt="Certificate" class="certificate-image">
+                            </a>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            certificatesContainer.innerHTML = certificatesHTML;
+            
+            // Reinitialize swiper
+            const certSwiper = new Swiper('.certificate-swiper', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                breakpoints: {
+                    640: { slidesPerView: 2, spaceBetween: 30 },
+                    1024: { slidesPerView: 3, spaceBetween: 40 },
+                }
+            });
+            
+            // Reinitialize tilt effect on new certificate slides
+            setTimeout(() => {
+                $('.certificate-slide').tilt({
+                    scale: 1.05,
+                    glare: true,
+                    maxGlare: 0.2,
+                    perspective: 1000
+                });
+            }, 100);
+        }
+    </script>
+</body>
+</html>
